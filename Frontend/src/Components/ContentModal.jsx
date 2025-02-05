@@ -7,24 +7,34 @@ import axios from "axios";
 import { useContent } from "../hooks/useContent";
 
 export function ContentModal({open,onClose}){
+    const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState("");
+
+  const options = [
+    { value: "youtube", label: "Youtube" },
+    { value: "twitter", label: "Twitter" },
+    { value: "linkedin", label: "Linkedin" },
+    { value: "docs", label: "Docs" },
+  ];
     const titleRef=useRef();
     const linkRef=useRef();
     const {refresh}=useContent();
-    const [selectedType, setSelectedType] = useState(""); // State for selected value
-
-    const handleChange = (event) => {
-        setSelectedType(event.target.value); // Update the selected value
-    };
+   
     async function addContent(){
         onClose();
        
         const title=titleRef.current?.value;
+        if(!title) {alert("Title is needed");return;}
+    
         const link=linkRef.current?.value;
+        if(!link) {alert("Link is needed");return;}
+
+        if(!selected){alert("Select type");return;}
         try{
             const response= await axios.post(`${BACKEND_URL}/api/v1/contents/addcontent`,{
                 title:title,
                 link:link,
-                type:selectedType
+                type:selected
                 
             },{
                 headers:{
@@ -52,20 +62,37 @@ export function ContentModal({open,onClose}){
                     
                     <Input reference={titleRef}  placeholder="Title"/>
                     <Input reference={linkRef}  placeholder="Link"/>
-                    <div>
-                       <select className="px-4 py-2 border rounded bg-slate-50 font-normal text-gray-500 min-w-56 my-2 " value={selectedType} onChange={handleChange}>
-                        <option  value="" disabled >-- Select Type --</option>
-                        <option  value="youtube">Youtube</option>
-                        <option value="twitter">Twitter</option>
-                        <option  value="linkedin">Linkedin</option>
-                        <option value="docs">Docs</option>
-                        
-                      </select>
+                    <div className="relative inline-block min-w-56">
+      
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-full px-4 py-2 my-2 text-left bg-slate-50 rounded text-gray-500 border border-gray-300 focus:outline-none"
+                    >
+                        {selected || "-- Select Type --"}
+                    </button>
+
+                    {/* Dropdown Menu */}
+                    {isOpen && (
+                        <ul className="absolute left-0 w-full mt-2 bg-white border border-gray-300 rounded shadow-md">
+                        {options.map((option) => (
+                            <li
+                            key={option.value}
+                            onClick={() => {
+                                setSelected(option.label);
+                                setIsOpen(false); // Close dropdown on select
+                            }}
+                            className="cursor-pointer px-4 py-2 text-gray-500 hover:bg-purple-600 hover:text-white"
+                            >
+                            {option.label}
+                            </li>
+                        ))}
+                        </ul>
+                    )}
                     </div>
                     
                   </div>
                   <div className="flex justify-center ">
-                    <Button onClick={addContent} variant="Primary" text="Submit"/>
+                    <Button onClick={addContent} variant="Primary" text="Add Content"/>
                   </div>
                </div>
             </div> } 

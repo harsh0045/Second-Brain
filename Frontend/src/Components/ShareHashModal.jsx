@@ -8,6 +8,7 @@ import axios from 'axios'
 import { BACKEND_URL } from '../../config'
 import CopyIcon from '../Icons/CopyIcon'
 import CorrectIcon from '../Icons/CorrectIcon'
+import { ShareIcon } from '../Icons/ShareIcon'
 
 const ShareHashModal = ({open,onClose}) => {
     const [hashcode,setHashCode]=useState("Regenerate");
@@ -48,11 +49,28 @@ const ShareHashModal = ({open,onClose}) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(hashcode)
       .then(() => {
-        setCopy(!copy);
+        setCopy(true);
       })
       .catch(() => {
         alert("Failed to copy text.");
       });
+  };
+  const handleShare = async () => {
+        
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Hashcode",
+          text: "Other's Brain",
+          url: hashcode, // Use the passed URL directly
+        });
+        console.log("Shared successfully!");
+      } catch (error) {
+        console.log("Error sharing:", error);
+      }
+    } else {
+      alert("Sharing is not supported on this browser.");
+    }
   };
   return (
     <div>
@@ -60,7 +78,7 @@ const ShareHashModal = ({open,onClose}) => {
         <div className="w-screen bg-opacity-40 h-screen bg-slate-500 fixed top-0 left-0 flex justify-center items-center"> 
                 <div className="bg-white flex flex-col gap-2 p-8 pt-4 rounded-md ">
                     <div className="flex justify-end">
-                        <div className="cursor-pointer p-2 hover:bg-gray-200 rounded" onClick={onClose}>
+                        <div className="cursor-pointer p-2 hover:bg-gray-200 rounded" onClick={()=>{onClose();setCopy(false)}}>
                             <CrossIcon/>
                         </div>
                     </div>
@@ -77,7 +95,7 @@ const ShareHashModal = ({open,onClose}) => {
                         
                         <Button onClick={()=>{addLink(true)}} startIcons={<RegenerateIcon/>} variant="Primary" text="Regenerate"/>
                         <Button onClick={()=>{addLink(false)}} startIcons={<DeleteIcon/>} variant="Primary" text="Delete"/>
-                        
+                        {copy && <Button onClick={()=>{handleShare()}} startIcons={<ShareIcon/>} variant="Primary" text="Share"/>}
                     </div>
             </div>
         </div> } 

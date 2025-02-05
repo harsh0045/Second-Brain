@@ -6,9 +6,9 @@ import { BrainIcon } from '../Icons/BrainIcon'
 import { DocsIcon } from '../Icons/DocsIcon'
 import { LinkedinIcon } from '../Icons/LinkedinIcon'
 import CrossIcon from '../Icons/CrossIcon'
+import { StackIcon } from '../Icons/StackIcon'
 
-
-const Sidebar = ({typeselection,onClose}) => {
+const Sidebar = ({brainType,setBrainType,onClose}) => {
 
   return (
     <div className='h-screen border-r bg-white border shadow-md outline-slate-200 fixed top-0 left-0 w-64  flex flex-col'>
@@ -26,10 +26,11 @@ const Sidebar = ({typeselection,onClose}) => {
                
         </div>
         <div className="flex flex-col">
-            <SidebarItem typeselect={(type)=>typeselection(type)} text="Twitter" icon={<TwitterIcon/>} />
-            <SidebarItem typeselect={(type)=>typeselection(type)} text="Youtube" icon={<YoutubeIcon/>} />
-            <SidebarItem typeselect={(type)=>typeselection(type)} text="Linkedin" icon={<LinkedinIcon/>} />
-            <SidebarItem typeselect={(type)=>typeselection(type)} text="Docs" icon={<DocsIcon/>} />
+           <SidebarItem brainType={brainType} typeselect={(type)=>setBrainType(type)} text="Recent" icon={<StackIcon/>} />
+            <SidebarItem brainType={brainType} typeselect={(type)=>setBrainType(type)} text="Twitter" icon={<TwitterIcon/>} />
+            <SidebarItem brainType={brainType} typeselect={(type)=>setBrainType(type)} text="Youtube" icon={<YoutubeIcon/>} />
+            <SidebarItem brainType={brainType} typeselect={(type)=>setBrainType(type)} text="Linkedin" icon={<LinkedinIcon/>} />
+            <SidebarItem brainType={brainType} typeselect={(type)=>setBrainType(type)} text="Docs" icon={<DocsIcon/>} />
         </div>
        
     </div>

@@ -7,27 +7,47 @@ import { ShareIcon } from "../Icons/ShareIcon"
 export function Card({ title, link, type, onDelete }) {
     const videoId = (type === "youtube") ? extractYouTubeVideoId(link) : null;
     const postId = (type === "linkedin") ? extractLinkedInPostId(link) : null;
+    const handleShare = async () => {
+        
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: type,
+              text: title,
+              url: link, // Use the passed URL directly
+            });
+            console.log("Shared successfully!");
+          } catch (error) {
+            console.log("Error sharing:", error);
+          }
+        } else {
+          alert("Sharing is not supported on this browser.");
+        }
+      };
+    
     return (
-        <div className="flex flex-col  h-80  bg-white p-4 rounded-md border shadow-md outline-slate-200 max-w-72 m-2">
-            <div className="flex justify-between text-sm text-gray-500 ">
-                <div className="flex  items-center gap-2  ">
-                    <div className="p-2 cursor-pointer rounded hover:bg-gray-200 transition-all duration-150">
+        <div className="flex flex-col  h-80  bg-white  pt-0   rounded-md border shadow-md outline-slate-200 max-w-72 m-2">
+            <div className="flex justify-between text-sm px-4  text-gray-500 bg-purple-200 rounded py-2">
+                <div className="flex flex-col ">
+                <span className="font-bold text-purple-600">{type.toUpperCase()}</span>
+                  <span className="font-semibold  ">{title}</span>  
+                    
+                </div>
+                <div className="flex items-center">
+                   <div onClick={() => handleShare()} className="p-2 cursor-pointer rounded hover:bg-gray-200 transition-all duration-150">
                         <ShareIcon />
                     </div>
-                    <span>{type}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <span>{title}</span>
-                    <div className="cursor-pointer p-2 rounded hover:bg-gray-200 transition-all duration-150" onClick={onDelete}>
+                    {onDelete  && <div className="cursor-pointer p-2 rounded hover:bg-gray-200 transition-all duration-150" onClick={onDelete}>
                         <DeleteIcon />
                     </div>
+                    }
 
                 </div>
             </div>
 
             {type === "youtube" && videoId ? (
                 <>
-                   <div className=" pt-4 w-full ">
+                   <div className=" p-4 w-full ">
                     <iframe
                         className="w-full"
                         src={`https://www.youtube.com/embed/${videoId}`}
@@ -38,9 +58,12 @@ export function Card({ title, link, type, onDelete }) {
                         allowFullScreen
                     ></iframe>
                     </div>
-                    <a href={link} target="_blank" rel="noopener noreferrer" className="bg-purple-600 text-white hover:bg-purple-500 rounded-md font-base px-4 py-2 mt-12 text-center">
-                       Open in Youtube
-                   </a>
+                    <div className="w-68 h-10 mt-8 flex justify-center items-center   mx-4  ">
+                        <a href={link} target="_blank" rel="noopener noreferrer" className="bg-purple-600 w-full py-2  text-white hover:bg-purple-500 rounded-md font-base text-center ">
+                        Open in Youtube
+                    </a>
+                    </div>
+                    
                 </>
                 
                 
@@ -51,7 +74,7 @@ export function Card({ title, link, type, onDelete }) {
                 : null}
             {type === "linkedin" && postId ? (
                 <>
-                   <div className=" pt-4 w-full overflow-y-auto ">
+                   <div className=" px-4 pt-2 w-full overflow-y-auto ">
                     <iframe src={`https://www.linkedin.com/embed/feed/update/urn:li:activity:${postId}`}  
                     height="190"
                     width="100%" 
@@ -60,9 +83,11 @@ export function Card({ title, link, type, onDelete }) {
                      title="Embedded-post"></iframe>
                     
                 </div>
-                <a href={link} target="_blank" rel="noopener noreferrer" className="bg-purple-600 text-white hover:bg-purple-500 rounded-md font-base px-4 py-2 mt-2 text-center">
-                Open in LinkedIn
-             </a>
+                <div className="w-68 h-10 mt-4 flex justify-center items-center   mx-4  ">
+                        <a href={link} target="_blank" rel="noopener noreferrer" className="bg-purple-600 w-full py-2  text-white hover:bg-purple-500 rounded-md font-base text-center ">
+                        Open in LinkedIn
+                    </a>
+                </div>
                 </>
                  
 
@@ -72,22 +97,24 @@ export function Card({ title, link, type, onDelete }) {
                 : null}
             {type === "twitter" && 
             <>
-              <div className=" pt-4 w-full overflow-y-auto ">
-                <blockquote className="twitter-tweet">
+              <div className=" px-4 pt-2  overflow-y-auto ">
+                <blockquote className="twitter-tweet ">
                     <a href={link.replace("x.com", "twitter.com")} />
                 </blockquote>
                 
              </div>
-             <a href={link} target="_blank" rel="noopener noreferrer" className="bg-purple-600 text-white hover:bg-purple-500 rounded-md font-base px-4 py-2 mt-2 text-center">
-                    Open in Twitter
-             </a>
+             <div className="w-68 h-10 mb-2 flex justify-center items-center   mx-4  ">
+                        <a href={link} target="_blank" rel="noopener noreferrer" className="bg-purple-600 w-full py-2  text-white hover:bg-purple-500 rounded-md font-base text-center ">
+                        Open in Twitter
+                    </a>
+                </div>
             </>
             
             
             }
             {type === "docs" ? (
                 <>
-                    <div className=" pt-4 ">
+                    <div className=" px-4 pt-2 ">
 
                         <iframe
                             
@@ -99,9 +126,11 @@ export function Card({ title, link, type, onDelete }) {
                             allowfullscreen
                         ></iframe>
                         </div>
-                        <a href={link} target="_blank" rel="noopener noreferrer" className="bg-purple-600 text-white hover:bg-purple-500 rounded-md font-base px-4 py-2 mt-2 text-center">
-                            Open in Google Docs
-                        </a>
+                        <div className="w-68 h-10 mt-4 flex justify-center items-center   mx-4  ">
+                        <a href={link} target="_blank" rel="noopener noreferrer" className="bg-purple-600 w-full py-2  text-white hover:bg-purple-500 rounded-md font-base text-center ">
+                        Open in Google Docs
+                    </a>
+                </div>
                         
                     </>
 

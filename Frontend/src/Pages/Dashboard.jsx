@@ -131,13 +131,15 @@ const Dashboard = () => {
       setBrainType("");
     },[otherBrainOpen]);
 
-   
+   useEffect(()=>{
+     if(brainType ==="")setBrainType("recent");
+   },[]);
 
   if(loading)return <div>Loading...</div>
   return (
     <div>
-        <div className='md:flex hidden'><Sidebar onClose={()=>setOpenSidebar(false)}  typeselection={(type)=>setBrainType(type)}/></div>
-        {openSidebar && <Sidebar onClose={()=>setOpenSidebar(false)}  typeselection={(type)=>setBrainType(type)}/>}
+        <div className='md:flex hidden'><Sidebar brainType={brainType} setBrainType={setBrainType} onClose={()=>setOpenSidebar(false)}  typeselection={(type)=>setBrainType(type)}/></div>
+        {openSidebar && <Sidebar brainType={brainType} setBrainType={setBrainType} onClose={()=>setOpenSidebar(false)}  typeselection={(type)=>setBrainType(type)}/>}
        
         <div className="md:ml-64 ml-0 bg-gray-100 min-h-screen ">
            {!otherBrainOpen &&
@@ -148,8 +150,8 @@ const Dashboard = () => {
             {!otherBrainOpen &&
             <div className='bg-white p-4 border h-20 flex justify-between items-center'>
                 {!openSidebar &&
-                   <div className='md:hidden cursor-pointer hover:bg-gray-200 p-2 rounded ' onClick={() => setOpenSidebar(prev => !prev)} >
-                      <MenuIcon/>
+                   <div className='md:hidden'  >
+                      <Button variant ="Primary"  onClick={() => setOpenSidebar(prev => !prev)} startIcons={<MenuIcon/>}/>
                   </div>
                 }
                <div className='text-2xl ml-3 text-purple-600 font-semibold'>
@@ -190,9 +192,9 @@ const Dashboard = () => {
            
             {otherBrainOpen &&<div className=" bg-white text-purple-600 p-4 border h-20 flex justify-between items-center gap-4">
               {!openSidebar &&
-                   <div className='md:hidden cursor-pointer hover:bg-gray-200 p-2 rounded ' onClick={() => setOpenSidebar(prev => !prev)} >
-                      <MenuIcon/>
-                  </div>
+                   <div   className='lg:hidden'>
+                   <Button variant="Primary" startIcons={<MenuIcon/>} onClick={() => setOpenSidebar(prev => !prev)} />
+                </div>
                 }
               <div className='flex gap-6'>
                 <div className=' px-2 flex justify-center items-center hover:cursor-pointer hover:bg-purple-200 hover:rounded-lg'  onClick={()=>setOtherBrainOpen(false)}>
@@ -209,15 +211,15 @@ const Dashboard = () => {
             </div>}
              
             
-              <div className=" flex flex-wrap justify-around items-center gap-4  pt-4 pl-4  ">
-                {!otherBrainOpen && contents?.map(({ title, type, link,_id}) => (
-                 (type===brainType || brainType==="") && <Card type={type} link={link} title={title} onDelete={()=>{
+              <div className="grid justify-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 ">
+                {!otherBrainOpen && contents?.slice().reverse().map(({ title, type, link,_id}) => (
+                 (type===brainType || brainType==="recent") && <Card type={type} link={link} title={title} onDelete={()=>{
                     setDeleteId(_id);
                  }}/>
                 
                 ))}
-                 {otherBrainOpen && otherContent?.map(({ title, type, link,_id}) => (
-                  (type===brainType || brainType==="")&& <Card type={type} link={link} title={title} />
+                 {otherBrainOpen && otherContent?.slice().reverse().map(({ title, type, link,_id}) => (
+                  (type===brainType || brainType==="recent")&& <Card type={type} link={link} title={title} />
                 ))}
               </div>
               
