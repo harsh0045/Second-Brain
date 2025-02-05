@@ -1,9 +1,11 @@
 import { ContentModel } from "../Models/contentModel.js";
 import mongoose from "mongoose";
 export const addContent=async(req,res)=>{
-   const {link,type,title,userId}=req.body;
-
+   const {link,type,title}=req.body;
+   const userId=req.user._id;
+   
    if(!link || !type || !title || !userId){
+      console.log({link,type,title,userId});
       return res.status(400).json({message:"All input field required"});
    }
    try{
@@ -15,7 +17,7 @@ export const addContent=async(req,res)=>{
    }
 }
 export const getContent=async(req,res)=>{
-    const {userId}=req.body;
+    const userId=req.user._id;
     if( !userId){
         return res.status(400).json({message:"userId is required"});
      }

@@ -7,6 +7,7 @@ import { blackListToken } from "../Models/blacklistTokeModel.js";
 
 export const registerUser=async(req,res)=>{
     const {firstname,lastname,email,password}=req.body;
+    console.log(firstname,lastname)
     const userSchema = z.object({
         firstname: z.string().min(2, "Name is required"), // String with a minimum length of 1
         lastname:z.string().min(2,"Name is required"),

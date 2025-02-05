@@ -8,9 +8,11 @@ import {connectDB} from './db/db.js';
 import {userRouter} from './Routes/userRouter.js'
 import { contentRouter } from './Routes/contentRouter.js';
 import { linkRouter } from './Routes/linkRouter.js';
+import cors from "cors"
 
 connectDB();
 app.use(express.json());
+app.use(cors());
 app.use("/api/v1/users",userRouter);
 app.use("/api/v1/contents",contentRouter);
 app.use("/api/v1/links",linkRouter);

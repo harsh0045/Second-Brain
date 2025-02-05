@@ -14,31 +14,39 @@ function random(len)
  return ans;
 }
 export const addLink=async(req,res)=>{
-    const {share,userId} = req.body;
-  
+    const {share} = req.body;
+    const userId=req.user._id;
     if(!userId){
         res.status(400).json({ message: "User ID is required" });
          return
     }
-    if (share.toLowerCase() !== "true" && share.toLowerCase()!== "false") {
+   
+    if (typeof(share)!== "boolean") {
         res.status(400).json({ message: "Invalid share value" });
         return
     }
   
     try {
-        if (share.toLowerCase()==="true") {
+        if (share) {
           const existingLink = await LinkModel.findOne({ userId });
           if (existingLink) {
-            res.json({ hash: existingLink.hash });
-            return;
+            try{
+              await LinkModel.deleteOne(
+                {
+                   userId
+                });
+            }catch(err){
+              res.status.json({message:"Error in deleting Link",err})
+            }
+           
           }
     
-        const hash = random(10);
-        await LinkModel.create({
-            userId, 
-            hash,
-        });
-        return res.json({hash});
+          const hash = random(20);
+          await LinkModel.create({
+              userId, 
+              hash,
+          });
+          return res.json({hash});
         } 
         else {
               await LinkModel.deleteOne(
@@ -56,9 +64,23 @@ export const addLink=async(req,res)=>{
         res.status(500).json({ message: "Internal Server Error" });
       }
     }
-export const getLink=async(req,res)=>{
-    const {hash} = req.body;
+    export const existLink= async(req,res)=>{
+      const userId=req.user._id;
+      if(!userId){
+          res.status(400).json({ message: "User ID is required" });
+           return
+      }
+      try{
+        const existingLink = await LinkModel.findOne({ userId });
+        return res.status(201).json({hash:existingLink?.hash});
+      }catch(err){
+        console.log(err);
+      }
 
+    }
+export const getLink=async(req,res)=>{
+    const hash = req.query.hash;
+    console.log(hash);
     if (!hash) {
        res.status(400).json({ message: "Invalid or missing hash" });
        return
@@ -67,18 +89,19 @@ export const getLink=async(req,res)=>{
     try {
       const link = await LinkModel.findOne({ hash });
       if (!link) {
-       return res.json({ message: "Wrong hash" });
+       return res.status(401).json({ message: "Wrong hash" });
       }
   
-      const content = await ContentModel.findOne({ userId: link.userId });
+      const content = await ContentModel.find({ userId: link.userId });
       const user = await UserModel.findOne({ _id: link.userId });
   
       if (!user) {
-        return res.json({ message: "User not found, something went wrong" });
+        return res.status(401).json({ message: "User not found, something went wrong" });
       }
   
-      return res.json({
+      return res.status(200).json({
         email: user.email ,
+        firstname:user.firstname,
         content: content 
       });
     } catch (err) {
