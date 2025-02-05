@@ -8,7 +8,7 @@ export function Card({ title, link, type, onDelete }) {
     const videoId = (type === "youtube") ? extractYouTubeVideoId(link) : null;
     const postId = (type === "linkedin") ? extractLinkedInPostId(link) : null;
     return (
-        <div className="flex flex-col  h-80  bg-white p-4 rounded-md border shadow-md outline-slate-200 max-w-72 ">
+        <div className="flex flex-col  h-80  bg-white p-4 rounded-md border shadow-md outline-slate-200 max-w-72 m-2">
             <div className="flex justify-between text-sm text-gray-500 ">
                 <div className="flex  items-center gap-2  ">
                     <div className="p-2 cursor-pointer rounded hover:bg-gray-200 transition-all duration-150">
