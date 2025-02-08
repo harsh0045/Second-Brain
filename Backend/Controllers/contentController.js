@@ -13,7 +13,7 @@ export const addContent=async(req,res)=>{
        const content= await ContentModel.create({link,type,title,userId,tag:[]});
        return res.status(201).json({message:"Content added",content});
    }catch(error){
-       return res.status(400).json({message:"Not added Content",reason:`${error}`})
+       return res.status(400).json({message:`${error}`})
    }
 }
 export const getContent=async(req,res)=>{

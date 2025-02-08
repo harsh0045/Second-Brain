@@ -9,28 +9,37 @@ import { BACKEND_URL } from '../../config'
 import CopyIcon from '../Icons/CopyIcon'
 import CorrectIcon from '../Icons/CorrectIcon'
 import { ShareIcon } from '../Icons/ShareIcon'
+import toast from 'react-hot-toast'
 
 const ShareHashModal = ({open,onClose}) => {
     const [hashcode,setHashCode]=useState("Regenerate");
+    const [loading,setLoading]=useState(false);
     async function existingLink(){
         try{
+            setLoading(true);
             const response= await axios.get(`${BACKEND_URL}/api/v1/links/exist`,{
                 headers:{
                     authorization:localStorage.getItem("token")
                 }
             })
             
-            setHashCode(response.data.hash);
+            if(response.data.hash)setHashCode(response.data.hash);
+            else setHashCode("Regenerate");
+           
         }catch(err){
-            console.log(err);
+          toast.error(`${err.response.data.message || "Something went wrong"}`); 
+        }finally{
+          setLoading(false);
         }
        
     }
     useEffect(()=>{
-        existingLink()
+       existingLink();
+ 
     },[open]);
     async function addLink(share){
         try{
+          setLoading(true);
             const response= await axios.post(`${BACKEND_URL}/api/v1/links/addlink`,{
                 share:share
             },{
@@ -38,10 +47,19 @@ const ShareHashModal = ({open,onClose}) => {
                     authorization:localStorage.getItem("token")
                 }
             })
-            if(share)setHashCode(response.data.hash);
-            else setHashCode("Regenerate")
+            if(share){
+              toast.success("Generated New Hash")
+              setHashCode(response.data.hash);
+            }else{
+              setHashCode("Regenerate")  
+              toast.success("Deleted Hash")
+            }
+            setCopy(false)
+           
         }catch(err){
-            console.log(err);
+          toast.error(`${err.response.data.message || "Something went wrong"}`); 
+        }finally{
+          setLoading(false);
         }
        
     }
@@ -50,9 +68,10 @@ const ShareHashModal = ({open,onClose}) => {
     navigator.clipboard.writeText(hashcode)
       .then(() => {
         setCopy(true);
+        toast.success("Copied");
       })
       .catch(() => {
-        alert("Failed to copy text.");
+        toast.error("Failed to copy text.");
       });
   };
   const handleShare = async () => {
@@ -64,12 +83,12 @@ const ShareHashModal = ({open,onClose}) => {
           text: "Other's Brain",
           url: hashcode, // Use the passed URL directly
         });
-        console.log("Shared successfully!");
+       
       } catch (error) {
-        console.log("Error sharing:", error);
+        toast.error("Error sharing:", error);
       }
     } else {
-      alert("Sharing is not supported on this browser.");
+      toast.error("Sharing is not supported on this browser.");
     }
   };
   return (
@@ -84,7 +103,7 @@ const ShareHashModal = ({open,onClose}) => {
                     </div>
                     <div   className="p-2 pl-4  flex justify-between items-center text-gray-500 font-mono  font-normal bg-slate-50 border rounded min-w-56  my-2">
                        <div> {hashcode}</div> 
-                         <button onClick={copyToClipboard} className="p-2 hover:bg-gray-200 rounded transition-all duration-150">
+                         <button onClick={ hashcode && hashcode!=="Regenerate" && copyToClipboard } className="p-2 hover:bg-gray-200 rounded transition-all duration-150">
                               {!copy && <CopyIcon/>}
                               {copy && <CorrectIcon/>}
                          </button>
@@ -93,9 +112,9 @@ const ShareHashModal = ({open,onClose}) => {
 
                     <div className="flex items-center justify-center gap-2 ">
                         
-                        <Button onClick={()=>{addLink(true)}} startIcons={<RegenerateIcon/>} variant="Primary" text="Regenerate"/>
-                        <Button onClick={()=>{addLink(false)}} startIcons={<DeleteIcon/>} variant="Primary" text="Delete"/>
-                        {copy && <Button onClick={()=>{handleShare()}} startIcons={<ShareIcon/>} variant="Primary" text="Share"/>}
+                        <Button loading={loading}  onClick={()=>{addLink(true)}} startIcons={<RegenerateIcon/>} variant="Primary" text="Regenerate"/>
+                        <Button loading={loading} onClick={()=>{hashcode && hashcode!=="Regenerate" && addLink(false)}} startIcons={<DeleteIcon/>} variant="Primary" text="Delete"/>
+                        {copy && <Button loading={loading}  onClick={()=>{hashcode && hashcode!=="Regenerate" && handleShare()}} startIcons={<ShareIcon/>} variant="Primary" text="Share"/>}
                     </div>
             </div>
         </div> } 

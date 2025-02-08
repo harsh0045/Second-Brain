@@ -29,10 +29,10 @@ const Start = () => {
             <div className='w-full flex items-center justify-center gap-6'>
                 <Button onClick={()=>{
                     navigate("/signup");
-                }} startIcons={<GetStartedIcon/>} variant="Primary" text="Get Started" />
+                }} startIcons={<GetStartedIcon/>} variant="StartingP" text="Get Started" />
                 <Button onClick={()=>{
                     navigate("/signin");
-                }} endIcons={<SigninIcon/>} variant="Secondary" text="Sign In"/>
+                }} endIcons={<SigninIcon/>} variant="StartingS" text="Sign In"/>
             </div>
         </div>
         

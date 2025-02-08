@@ -5,6 +5,7 @@ import { Button } from '../Components/Button'
 import axios from 'axios'
 import { BACKEND_URL } from '../../config'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 
 export const Signin = () => {
@@ -13,23 +14,30 @@ export const Signin = () => {
     const passwordRef=useRef();
     const emailRef=useRef();
     async function signin (){
-      setLoading(true);
+     
       const email=emailRef.current?.value;
       const password=passwordRef.current?.value;
       try{
+        setLoading(true);
         const response=await axios.post(`${BACKEND_URL}/api/v1/users/login`,{
             email: email,
             password: password
         
         })
-        console.log(response);
+        
+        toast.success("User loged in Successfully")
         const jwt=response.data.token;
-        const userId=response.data.user._id;
+        
         localStorage.setItem("token",`bearer ${jwt}`);
+     
+      
         navigate("/dashboard");
+      
       }catch(err){
-        alert("Error in Login")
-        console.log(err);
+        toast.error(err.response?.data?.message || "Something went wrong");    
+      }finally {
+        setLoading(false);
+        console.log("Final block executed");
       }
      
   }

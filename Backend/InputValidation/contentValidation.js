@@ -12,7 +12,7 @@ import {z} from "zod";
         {
           const errorMessages = parseData.error.issues.map((issue) => issue.message);
           res.status(411).json({
-              mssg:errorMessages,
+              message:errorMessages,
                
       
           })

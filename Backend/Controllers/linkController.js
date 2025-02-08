@@ -67,14 +67,14 @@ export const addLink=async(req,res)=>{
     export const existLink= async(req,res)=>{
       const userId=req.user._id;
       if(!userId){
-          res.status(400).json({ message: "User ID is required" });
-           return
+         return res.status(400).json({ message: "User ID is required" });
+         
       }
       try{
         const existingLink = await LinkModel.findOne({ userId });
         return res.status(201).json({hash:existingLink?.hash});
       }catch(err){
-        console.log(err);
+        return res.status(400).json({message:"Something went wrong"})
       }
 
     }

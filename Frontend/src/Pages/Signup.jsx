@@ -5,6 +5,8 @@ import { Button } from '../Components/Button'
 import { BACKEND_URL } from '../../config'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+
 
 export const Signup = () => {
   const navigate=useNavigate();
@@ -28,12 +30,12 @@ export const Signup = () => {
           password: password
       
         })
+        toast.success("Signed up Successfully");
         navigate("/signin");
       }catch(err){
-        console.log(err);
+        toast.error(err.response?.data?.message || "Something went wrong");    
       }
-    
-    
+     
   }
  
   return (

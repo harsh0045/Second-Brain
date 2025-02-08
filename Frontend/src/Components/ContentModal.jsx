@@ -5,6 +5,7 @@ import { Input } from "./Input"
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
 import { useContent } from "../hooks/useContent";
+import toast from "react-hot-toast";
 
 export function ContentModal({open,onClose}){
     const [isOpen, setIsOpen] = useState(false);
@@ -24,12 +25,12 @@ export function ContentModal({open,onClose}){
         onClose();
        
         const title=titleRef.current?.value;
-        if(!title) {alert("Title is needed");return;}
+        if(!title) {toast.error("Title is needed");return;}
     
         const link=linkRef.current?.value;
-        if(!link) {alert("Link is needed");return;}
+        if(!link) {toast.error("Link is needed");return;}
 
-        if(!selected){alert("Select type");return;}
+        if(!selected){toast.error("Select type");return;}
         try{
             const response= await axios.post(`${BACKEND_URL}/api/v1/contents/addcontent`,{
                 title:title,
@@ -41,9 +42,12 @@ export function ContentModal({open,onClose}){
                     authorization:localStorage.getItem("token")
                 }
             })
-            refresh();
+            toast.success("Added Content");
+           
         }catch(err){
-            console.log(err);
+            toast.error(`Not Added:${err.response.data.message || "Something went wrong"}`);    
+        }finally{
+            refresh();
         }
        
 

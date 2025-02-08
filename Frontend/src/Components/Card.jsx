@@ -24,6 +24,7 @@ export function Card({ title, link, type, onDelete }) {
           alert("Sharing is not supported on this browser.");
         }
       };
+
     
     return (
         <div className="flex flex-col  h-80  bg-white  pt-0   rounded-md border shadow-md outline-slate-200 max-w-72 m-2">
