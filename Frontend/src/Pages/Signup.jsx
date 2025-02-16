@@ -40,7 +40,7 @@ export const Signup = () => {
  
   return (
     <div className="h-screen w-screen bg-gray-200  flex justify-center items-center">
-        <div className='bg-white rounded-xl border min-w-48 p-8 pt-4'>
+        <div className='bg-white rounded-xl border min-w-40 p-8 pt-4'>
            
            <div className="flex justify-end">
                   <div className=" rounded p-2 hover:bg-gray-200 cursor-pointer" onClick={()=>{navigate("/")}} >

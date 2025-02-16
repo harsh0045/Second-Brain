@@ -185,7 +185,7 @@ const Dashboard = () => {
             <div className='pl-8 rounded w-full py-3 text-gray-700 text-md   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick={() => { setMenuOpen(false); setHashModalOpen(true) }} >Share Brain</div>
             <div className='pl-8 rounded w-full  py-3 text-gray-700 text-md   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick={() => { setMenuOpen(false); setContentModalOpen(true) }} >Add Content</div>
             <hr/>
-            <div className='pl-8 rounded w-full  py-3 text-gray-700 text-md flex gap-x-2 items-center   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick={() => { setMenuOpen(false); setOtherBrainModalOpen(true) }} >Log Out <LogoutIcon /></div>
+            <div className='pl-8 rounded w-full  py-3 text-gray-700 text-md flex gap-x-2 items-center   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick= {() => userLogout()} >Log Out <LogoutIcon /></div>
           </div>
 
         }

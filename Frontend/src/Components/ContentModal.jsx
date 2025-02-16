@@ -57,7 +57,7 @@ export function ContentModal({open,onClose}){
         <div>
            {open && 
             <div className="w-screen bg-opacity-40 h-screen bg-slate-500 fixed top-0 left-0 flex justify-center items-center"> 
-                    <div className="bg-white flex flex-col gap-2 p-8 rounded-md ">
+                    <div className="bg-white flex flex-col gap-2 p-8 pt-4 rounded-md ">
                         <div className="flex justify-end">
                             <div className="cursor-pointer p-2 rounded hover:bg-gray-200" onClick={onClose}>
                                 <CrossIcon/>
@@ -71,9 +71,9 @@ export function ContentModal({open,onClose}){
       
                     <button
                         onClick={() => setIsOpen(!isOpen)}
-                        className="w-full px-4 py-2 my-2 text-left bg-slate-50 rounded text-gray-500 border border-gray-300 focus:outline-none"
+                        className="w-full px-4 py-2 my-2 text-sm md:text-md text-left bg-slate-50 rounded font-normal text-gray-500 border border-gray-300 focus:outline-none"
                     >
-                        {selected || "-- Select Type --"}
+                        {selected || "Select Type"}
                     </button>
 
                     {/* Dropdown Menu */}
