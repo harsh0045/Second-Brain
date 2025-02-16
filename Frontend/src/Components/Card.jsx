@@ -5,8 +5,10 @@ import { DeleteIcon } from "../Icons/DeleteIcon";
 import { ShareIcon } from "../Icons/ShareIcon"
 
 export function Card({ title, link, type, onDelete }) {
+  
     const videoId = (type === "youtube") ? extractYouTubeVideoId(link) : null;
     const postId = (type === "linkedin") ? extractLinkedInPostId(link) : null;
+    
     const handleShare = async () => {
         
         if (navigator.share) {

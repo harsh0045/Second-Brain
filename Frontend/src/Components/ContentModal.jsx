@@ -82,7 +82,7 @@ export function ContentModal({open,onClose}){
                             <li
                             key={option.value}
                             onClick={() => {
-                                setSelected(option.label);
+                                setSelected(option.value);
                                 setIsOpen(false); // Close dropdown on select
                             }}
                             className="cursor-pointer px-4 py-2 text-gray-500 hover:bg-purple-600 hover:text-white"
