@@ -22,6 +22,8 @@ import { LeftIcon } from '../Icons/LeftIcon';
 import MenuIcon from '../Icons/MenuIcon';
 import CrossIcon from '../Icons/CrossIcon';
 import toast from 'react-hot-toast';
+import { UserIcon } from '../Icons/User';
+import { SidebarIcon } from '../Icons/SidebarIcon';
 
 
 const Dashboard = () => {
@@ -159,7 +161,7 @@ const Dashboard = () => {
           <div className='bg-white p-4 border h-20 flex justify-between items-center'>
             {!openSidebar &&
               <div className='md:hidden'  >
-                <Button variant="Primary" onClick={() => setOpenSidebar(prev => !prev)} startIcons={<MenuIcon />} />
+                <Button variant="Secondary" onClick={() => setOpenSidebar(prev => !prev)} startIcons={<SidebarIcon />} />
               </div>
             }
             <div className='text-2xl ml-3 text-purple-600 font-semibold'>
@@ -172,17 +174,18 @@ const Dashboard = () => {
               <Button onClick={() => userLogout()} endIcons={<LogoutIcon />} variant="Primary" text="Log Out" />
             </div>
             <div className='lg:hidden'>
-              <Button variant="Primary" text="Features" onClick={() => setMenuOpen(prev => !prev)} />
+              <Button variant="StartingS" startIcons={<MenuIcon/>} endIcons={<UserIcon/>} onClick={() => setMenuOpen(prev => !prev)} />
             </div>
 
           </div>}
         {menuOpen && !otherBrainOpen &&
-          <div className='w-72 right-0 fixed border-r bg-white border shadow-md outline-slate-200    flex flex-col '>
-            <div className='flex flex-row-reverse mt-2 pr-2'><span onClick={() => setMenuOpen(prev => !prev)} className='p-2 cursor-pointer rounded hover:bg-gray-200'><CrossIcon /></span></div>
-            <div className='pl-8 rounded w-full my-2 py-2 text-gray-700 text-md   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick={() => { setMenuOpen(false); setOtherBrainModalOpen(true) }} >See Other's Brain</div>
-            <div className='pl-8 rounded w-full my-2 py-2 text-gray-700 text-md   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick={() => { setMenuOpen(false); setHashModalOpen(true) }} >Share Brain</div>
-            <div className='pl-8 rounded w-full my-2 py-2 text-gray-700 text-md   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick={() => { setMenuOpen(false); setContentModalOpen(true) }} >Add Content</div>
-            <div className='pl-8 rounded w-full my-2 py-2 text-gray-700 text-md flex gap-x-2 items-center   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick={() => { setMenuOpen(false); setOtherBrainModalOpen(true) }} >Log Out <LogoutIcon /></div>
+          <div className='w-60 right-0 fixed border-r bg-white border  shadow-md outline-slate-200    flex flex-col '>
+            <div className='flex flex-row-reverse mt-2 items-center pr-2'><span onClick={() => setMenuOpen(prev => !prev)} className='p-2 cursor-pointer rounded hover:bg-gray-200'><CrossIcon /></span></div>
+            <div className='pl-8 rounded w-full   py-3 text-gray-700 text-md   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick={() => { setMenuOpen(false); setOtherBrainModalOpen(true) }} >See Other's Brain</div>
+            <div className='pl-8 rounded w-full py-3 text-gray-700 text-md   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick={() => { setMenuOpen(false); setHashModalOpen(true) }} >Share Brain</div>
+            <div className='pl-8 rounded w-full  py-3 text-gray-700 text-md   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick={() => { setMenuOpen(false); setContentModalOpen(true) }} >Add Content</div>
+            <hr/>
+            <div className='pl-8 rounded w-full  py-3 text-gray-700 text-md flex gap-x-2 items-center   cursor-pointer hover:bg-purple-600 hover:text-white transition-all duration-150' onClick={() => { setMenuOpen(false); setOtherBrainModalOpen(true) }} >Log Out <LogoutIcon /></div>
           </div>
 
         }
