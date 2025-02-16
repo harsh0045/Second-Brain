@@ -22,7 +22,7 @@ export function ContentModal({open,onClose}){
     const {refresh}=useContent();
    
     async function addContent(){
-        onClose();
+     
        
         const title=titleRef.current?.value;
         if(!title) {toast.error("Title is needed");return;}
@@ -47,6 +47,7 @@ export function ContentModal({open,onClose}){
         }catch(err){
             toast.error(`Not Added:${err.response.data.message || "Something went wrong"}`);    
         }finally{
+            onClose();
             refresh();
         }
        
