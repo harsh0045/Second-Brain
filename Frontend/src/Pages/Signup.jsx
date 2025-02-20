@@ -47,10 +47,10 @@ export const Signup = () => {
                     <CrossIcon/>
                   </div>
             </div>
-            <Input reference={firstnameRef} placeholder="Firstname"/>
-            <Input reference={lastnameRef} placeholder="Lastname"/>
-            <Input reference={emailRef} placeholder="Email"/>
-            <Input reference={passwordRef}  placeholder="Password"/>
+            <Input reference={firstnameRef} type="text" placeholder="Firstname"/>
+            <Input reference={lastnameRef} type="text" placeholder="Lastname"/>
+            <Input reference={emailRef} type="email" placeholder="Email"/>
+            <Input reference={passwordRef} type="password" placeholder="Password"/>
            <div className='flex justify-center py-2'>
             < Button onClick={signup} variant="Primary" text="Sign Up" fullWidth={true} loading={loading}/>
            </div>

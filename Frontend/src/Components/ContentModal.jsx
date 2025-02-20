@@ -66,8 +66,8 @@ export function ContentModal({open,onClose}){
                         </div>
                         <div>
                     
-                    <Input reference={titleRef}  placeholder="Title"/>
-                    <Input reference={linkRef}  placeholder="Link"/>
+                    <Input reference={titleRef} type="text"  placeholder="Title"/>
+                    <Input reference={linkRef} type="text"  placeholder="Link"/>
                     <div className="relative min-w-38 max-w-46">
       
                     <div

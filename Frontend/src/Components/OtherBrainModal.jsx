@@ -19,7 +19,7 @@ const OtherBrainModal = ({open,onClose,otherOpen}) => {
                         </div>
                     </div>
                     <div className="flex items-center justify-center gap-2 ">
-                      <Input reference={hashRef} placeholder="Enter hash" />
+                      <Input reference={hashRef} type="text" placeholder="Enter hash" />
                       <Button onClick={()=>otherOpen(hashRef.current?.value)} variant="Primary" text="Search"/>
                     </div>
             </div>

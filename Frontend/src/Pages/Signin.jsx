@@ -50,8 +50,8 @@ export const Signin = () => {
                      </div>
             </div>
           
-            <Input reference={emailRef} placeholder="Email"/>
-            <Input reference={passwordRef} placeholder="Password"/>
+            <Input reference={emailRef}  type="email" placeholder="Email"/>
+            <Input reference={passwordRef} type="password" placeholder="Password"/>
            <div className='flex justify-center py-2'>
             < Button onClick={signin} variant="Primary" text="Sign in" fullWidth={true} loading={loading}/>
            </div>
