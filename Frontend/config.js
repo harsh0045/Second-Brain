@@ -1,1 +1,1 @@
-export const BACKEND_URL="https://v562q7mb-3000.inc1.devtunnels.ms"
+export const BACKEND_URL="http://localhost:3000"

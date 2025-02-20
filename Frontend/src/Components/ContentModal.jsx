@@ -48,6 +48,7 @@ export function ContentModal({open,onClose}){
             toast.error(`Not Added:${err.response.data.message || "Something went wrong"}`);    
         }finally{
             onClose();
+            setSelected("");
             refresh();
         }
        
@@ -59,7 +60,7 @@ export function ContentModal({open,onClose}){
             <div className="w-screen bg-opacity-40 h-screen bg-slate-500 fixed top-0 left-0 flex justify-center items-center"> 
                     <div className="bg-white flex flex-col gap-2 p-8 pt-4 rounded-md ">
                         <div className="flex justify-end">
-                            <div className="cursor-pointer p-2 rounded hover:bg-gray-200" onClick={onClose}>
+                            <div className="cursor-pointer p-2 rounded hover:bg-gray-200" onClick={()=>{onClose(); setIsOpen(false);setSelected("");}}>
                                 <CrossIcon/>
                             </div>
                         </div>
@@ -67,14 +68,14 @@ export function ContentModal({open,onClose}){
                     
                     <Input reference={titleRef}  placeholder="Title"/>
                     <Input reference={linkRef}  placeholder="Link"/>
-                    <div className="relative inline-block min-w-56">
+                    <div className="relative min-w-38 max-w-46">
       
-                    <button
+                    <div
                         onClick={() => setIsOpen(!isOpen)}
-                        className="w-full px-4 py-2 my-2 text-sm md:text-md text-left bg-slate-50 rounded font-normal text-gray-500 border border-gray-300 focus:outline-none"
+                        className="py-2 pl-4  w-full text-gray-500 cursor-pointer text-sm md:text-md  font-normal bg-slate-50 border rounded    my-2 focus:outline-none"
                     >
                         {selected || "Select Type"}
-                    </button>
+                    </div>
 
                     {/* Dropdown Menu */}
                     {isOpen && (
