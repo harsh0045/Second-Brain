@@ -33,13 +33,24 @@ const allowedOrigins = [
   }));
   
   // ✅ Explicitly handle preflight requests
-  app.options("*", (req, res) => {
-    res.header("Access-Control-Allow-Origin", req.headers.origin);
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*"); // Allow all origins
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Max-Age", "600"); // Cache preflight for 10 minutes
-    res.sendStatus(204);
+    res.header("Access-Control-Allow-Credentials", "true"); // Allow cookies if needed
+    next();
   });
+  
+  // ✅ Explicitly handle preflight requests (OPTIONS)
+  app.options("*", (req, res) => {
+    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Max-Age", "600");
+    return res.sendStatus(204);
+  });
+  
   
 
 const port = process.env.PORT || 3000;
