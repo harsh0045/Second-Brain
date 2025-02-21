@@ -12,39 +12,68 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-// ✅ Define allowed origins
-const ALLOWED_ORIGINS = [
-  `https://${process.env.FRONTEND_URL}`,
-  "http://localhost:5173", // Local frontend
-];
+// ✅ Define allowed origins dynamically
+const allowedOrigins = [process.env.FRONTEND_URL];
 
-// ✅ CORS Middleware
-app.use((req, res, next) => {
-  const requestOrigin = req.headers.origin;
-  const accessOrigin = ALLOWED_ORIGINS.includes(requestOrigin) ? requestOrigin : ALLOWED_ORIGINS[1];
+// ✅ Custom CORS Middleware
+const allowCors = (fn) => async (req, res) => {
+  const origin = req.headers.origin;
 
-  res.setHeader("Access-Control-Allow-Origin", accessOrigin);
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Vary", "Origin");
-
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(204); // Preflight request handling
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
 
-  next();
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+  );
+
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
+  }
+
+  return await fn(req, res);
+};
+
+// ✅ Apply CORS middleware to Express
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
+// ✅ Handle Preflight Requests for Vercel
+app.options('*', (req, res) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Max-Age", "600"); // Cache preflight for 10 minutes
+  res.sendStatus(204);
 });
 
-// ✅ Routes
-app.get("/", (req, res) => {
-  res.send("Welcome to the Second Brain API");
-});
-
-app.use("/api/v1/users", userRouter);
-app.use("/api/v1/contents", contentRouter);
-app.use("/api/v1/links", linkRouter);
+// ✅ Use Routes with CORS Middleware
+app.use('/api/users', allowCors(userRouter));
+app.use('/api/content', allowCors(contentRouter));
+app.use('/api/links', allowCors(linkRouter));
 
 const port = process.env.PORT || 3000;
+
+app.get('/', allowCors((req, res) => {
+  res.send('Welcome to the Second Brain API');
+}));
+
 app.listen(port, () => {
   console.log(`Server is listening on ${port}`);
 });
