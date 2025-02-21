@@ -3,7 +3,7 @@ import { getContent } from "../Controllers/contentController.js";
 import { addContent } from "../Controllers/contentController.js";
 import { deleteContent } from "../Controllers/contentController.js";
 import { contentValidation } from "../InputValidation/contentValidation.js";
-import { authUserMiddleware } from "../middleware/authuserMiddleware.js";
+import { authUserMiddleware } from '../Middleware/authuserMiddleware.js';
 
 export const contentRouter=express.Router();
 

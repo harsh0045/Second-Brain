@@ -1,5 +1,5 @@
 import { ContentModel } from "../Models/contentModel.js";
-import mongoose from "mongoose";
+
 export const addContent=async(req,res)=>{
    const {link,type,title}=req.body;
    const userId=req.user._id;

@@ -17,18 +17,11 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Test route
-app.get("/", (req, res) => res.send("Express backend is running on Vercel 🚀"));
 
-// Routes
-app.use((err, req, res, next) => {
-    console.error("Server Error:", err);
-    res.status(500).json({ error: err.message });
- });
-  
+
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/contents", contentRouter);
 app.use("/api/v1/links", linkRouter);
 
-// Do NOT use app.listen() for Vercel
+
 export default app;
