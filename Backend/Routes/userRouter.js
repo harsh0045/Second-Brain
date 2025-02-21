@@ -5,7 +5,7 @@ import { loginUser } from "../Controllers/userController.js";
 import { logoutUser } from "../Controllers/userController.js";
 import { getUserProfile } from "../Controllers/userController.js";
 
-import { authUserMiddleware } from "../Middleware/authuserMiddleware.js";
+import { authUserMiddleware } from "../Middleware/authUserMiddleware.js";
 console.log("Middleware imported successfully!");
 export const userRouter=express.Router();
 userRouter.post("/register",registerUser);
