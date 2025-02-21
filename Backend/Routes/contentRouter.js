@@ -4,7 +4,7 @@ import { addContent } from "../Controllers/contentController.js";
 import { deleteContent } from "../Controllers/contentController.js";
 import { contentValidation } from "../InputValidation/contentValidation.js";
 import { authUserMiddleware } from '../Middleware/authUserMiddleware.js';
-console.log("Middleware imported successfully!");
+
 export const contentRouter=express.Router();
 
 contentRouter.post("/addcontent",authUserMiddleware,contentValidation,addContent);

@@ -18,15 +18,19 @@ app.use(express.json());
 
 // Configure CORS
 const corsOptions = {
-    origin: process.env.FRONTEND_URL, // Allow specific frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
-  };
+    origin: [process.env.BACKEND_URL, "http://localhost:5173"], // Allow both deployed & local frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Allow cookies if needed
+};
+
+app.use(cors(corsOptions));
+
   
   
 
 const port = process.env.PORT || 3000;
-app.use(cors(corsOptions));
+
 
 
 app.get("/",(req,res)=>{
