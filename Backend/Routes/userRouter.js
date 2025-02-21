@@ -1,6 +1,6 @@
 import express from "express";
 import {registerUser} from "../Controllers/userController.js"
-import { authUserMiddleware } from "../Middleware/authuserMiddleware.js";
+import { authUserMiddleware } from "../middleware/authuserMiddleware.js";
 import { loginUser } from "../Controllers/userController.js";
 import { logoutUser } from "../Controllers/userController.js";
 import { getUserProfile } from "../Controllers/userController.js";

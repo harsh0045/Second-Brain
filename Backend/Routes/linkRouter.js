@@ -1,7 +1,7 @@
 import express from 'express';
 import { addLink, existLink } from "../Controllers/linkController.js";
 import { getLink } from "../Controllers/linkController.js";
-import { authUserMiddleware } from "../Middleware/authuserMiddleware.js";
+import { authUserMiddleware } from "../middleware/authuserMiddleware.js";
 
 export const linkRouter=express.Router();
 
