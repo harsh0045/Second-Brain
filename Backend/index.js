@@ -14,17 +14,11 @@ connectDB();
 
 // Initialize Express app
 const app = express();
+
+
+
+app.use(cors());
 app.use(express.json());
-
-// Configure CORS
-const corsOptions = {
-    origin: [process.env.BACKEND_URL, "http://localhost:5173"], // Allow both deployed & local frontend
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // Allow cookies if needed
-};
-
-app.use(cors(corsOptions));
 
   
   
