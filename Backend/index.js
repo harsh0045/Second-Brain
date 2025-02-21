@@ -17,11 +17,29 @@ const app = express();
 
 
 
-app.use(cors({ origin: "*", }));
 
 app.use(express.json());
 
   
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+  ];
+  
+  app.use(cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Allow cookies if needed
+  }));
+  
+  // ✅ Explicitly handle preflight requests
+  app.options("*", (req, res) => {
+    res.header("Access-Control-Allow-Origin", req.headers.origin);
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Max-Age", "600"); // Cache preflight for 10 minutes
+    res.sendStatus(204);
+  });
   
 
 const port = process.env.PORT || 3000;
