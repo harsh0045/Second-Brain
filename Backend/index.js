@@ -14,7 +14,7 @@ app.use(express.json());
 
 // ✅ Define allowed origins
 const ALLOWED_ORIGINS = [
-  `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
+  `https://${process.env.FRONTEND_URL}`,
   "http://localhost:5173", // Local frontend
 ];
 
