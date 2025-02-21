@@ -16,6 +16,10 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
+app.get("/", (req, res) => {
+    res.send("Welcome to the Second Brain API!");
+});
+
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/contents", contentRouter);
 app.use("/api/v1/links", linkRouter);
