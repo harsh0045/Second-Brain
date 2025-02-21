@@ -2,7 +2,7 @@ import { useRef, useState } from "react"
 import CrossIcon from "../Icons/CrossIcon"
 import { Button } from "./Button"
 import { Input } from "./Input"
-import { BACKEND_URL } from "../../config";
+
 import axios from "axios";
 import { useContent } from "../hooks/useContent";
 import toast from "react-hot-toast";
@@ -32,7 +32,7 @@ export function ContentModal({open,onClose}){
 
         if(!selected){toast.error("Select type");return;}
         try{
-            const response= await axios.post(`${BACKEND_URL}/api/v1/contents/addcontent`,{
+            const response= await axios.post(`${process.env.BACKEND_URL}/api/v1/contents/addcontent`,{
                 title:title,
                 link:link,
                 type:selected

@@ -5,7 +5,7 @@ import { Button } from './Button'
 import { DeleteIcon } from '../Icons/DeleteIcon'
 import RegenerateIcon from '../Icons/RegenerateIcon'
 import axios from 'axios'
-import { BACKEND_URL } from '../../config'
+
 import CopyIcon from '../Icons/CopyIcon'
 import CorrectIcon from '../Icons/CorrectIcon'
 import { ShareIcon } from '../Icons/ShareIcon'
@@ -17,7 +17,7 @@ const ShareHashModal = ({open,onClose}) => {
     async function existingLink(){
         try{
             setLoading(true);
-            const response= await axios.get(`${BACKEND_URL}/api/v1/links/exist`,{
+            const response= await axios.get(`${process.env.BACKEND_URL}/api/v1/links/exist`,{
                 headers:{
                     authorization:localStorage.getItem("token")
                 }
@@ -40,7 +40,7 @@ const ShareHashModal = ({open,onClose}) => {
     async function addLink(share){
         try{
           setLoading(true);
-            const response= await axios.post(`${BACKEND_URL}/api/v1/links/addlink`,{
+            const response= await axios.post(`${process.env.BACKEND_URL}/api/v1/links/addlink`,{
                 share:share
             },{
                 headers:{

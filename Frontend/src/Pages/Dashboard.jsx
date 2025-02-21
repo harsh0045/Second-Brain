@@ -8,7 +8,6 @@ import { Card } from '../Components/Card';
 import { useState } from 'react';
 import { useContent } from '../hooks/useContent';
 import axios from 'axios';
-import { BACKEND_URL } from '../../config';
 import { useNavigate } from 'react-router-dom';
 import ShareHashModal from '../Components/ShareHashModal';
 
@@ -49,7 +48,7 @@ const Dashboard = () => {
 
   async function check() {
     try {
-      const response = await axios.get(`${BACKEND_URL}/api/v1/users/profile`,
+      const response = await axios.get(`${process.env.BACKEND_URL}/api/v1/users/profile`,
         {
           headers: {
             authorization: localStorage.getItem("token"),
@@ -65,7 +64,7 @@ const Dashboard = () => {
 
   async function deleteContentId() {
     try {
-      await axios.delete(`${BACKEND_URL}/api/v1/contents/deletecontent`,
+      await axios.delete(`${process.env.BACKEND_URL}/api/v1/contents/deletecontent`,
         {
           data: {
             contentId: deleteId
@@ -84,7 +83,7 @@ const Dashboard = () => {
 
   async function userLogout() {
     try {
-      await axios.get(`${BACKEND_URL}/api/v1/users/logout`, {
+      await axios.get(`${process.env.BACKEND_URL}/api/v1/users/logout`, {
         headers: {
           Authorization: localStorage.getItem("token")
         }
@@ -101,7 +100,7 @@ const Dashboard = () => {
 
   async function getOtherBrain(hash) {
     try {
-      const response = await axios.get(`${BACKEND_URL}/api/v1/links/getlink`,
+      const response = await axios.get(`${process.env.BACKEND_URL}/api/v1/links/getlink`,
         {
           params: { hash: hash },
           headers: {

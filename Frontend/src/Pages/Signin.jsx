@@ -3,7 +3,7 @@ import { Input } from '../Components/Input'
 import CrossIcon from '../Icons/CrossIcon'
 import { Button } from '../Components/Button'
 import axios from 'axios'
-import { BACKEND_URL } from '../../config'
+
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
@@ -19,7 +19,7 @@ export const Signin = () => {
       const password=passwordRef.current?.value;
       try{
         setLoading(true);
-        const response=await axios.post(`${BACKEND_URL}/api/v1/users/login`,{
+        const response=await axios.post(`${process.env.BACKEND_URL}/api/v1/users/login`,{
             email: email,
             password: password
         

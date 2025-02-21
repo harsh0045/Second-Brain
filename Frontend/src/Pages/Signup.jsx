@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Input } from '../Components/Input'
 import CrossIcon from '../Icons/CrossIcon'
 import { Button } from '../Components/Button'
-import { BACKEND_URL } from '../../config'
+
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
@@ -23,7 +23,7 @@ export const Signup = () => {
       const password=passwordRef.current?.value;
       console.log({ firstname, lastname, email, password });
       try{
-        await axios.post(`${BACKEND_URL}/api/v1/users/register`,{
+        await axios.post(`${process.env.BACKEND_URL}/api/v1/users/register`,{
           firstname: firstname,
           lastname: lastname,
           email: email,
