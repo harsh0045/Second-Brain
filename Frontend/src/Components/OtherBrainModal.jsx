@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import CrossIcon from '../Icons/CrossIcon'
 import { Button } from './Button'
 import { Input } from './Input'

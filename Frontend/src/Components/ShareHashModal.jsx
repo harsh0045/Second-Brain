@@ -17,7 +17,7 @@ const ShareHashModal = ({open,onClose}) => {
     async function existingLink(){
         try{
             setLoading(true);
-            const response= await axios.get(`${process.env.BACKEND_URL}/api/v1/links/exist`,{
+            const response= await axios.get(`${process.env.VITE_BACKEND_URL}/api/v1/links/exist`,{
                 headers:{
                     authorization:localStorage.getItem("token")
                 }

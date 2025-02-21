@@ -1,6 +1,6 @@
 
 
-import { BACKEND_URL } from "../../config";
+
 import { DeleteIcon } from "../Icons/DeleteIcon";
 import { ShareIcon } from "../Icons/ShareIcon"
 

@@ -5,7 +5,7 @@ import axios from "axios";
 export const useContent = () => {
   const [contents,setContents]=useState([]);
   async function refresh (){
-    await axios.get(`${process.env.BACKEND_URL}/api/v1/contents/getcontent`,{
+    await axios.get(`${process.env.VITE_BACKEND_URL}/api/v1/contents/getcontent`,{
         headers:{
             Authorization:localStorage.getItem("token")
         }

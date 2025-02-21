@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import SidebarItem from './SidebarItem'
 import { TwitterIcon } from '../Icons/TwitterIcon'
 import { YoutubeIcon } from '../Icons/YoutubeIcon'
