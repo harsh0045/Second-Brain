@@ -1,72 +1,52 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import cors from "cors";
+import cors from 'cors';
 import { connectDB } from './db/db.js';
 import { userRouter } from './Routes/userRouter.js';
 import { contentRouter } from './Routes/contentRouter.js';
 import { linkRouter } from './Routes/linkRouter.js';
 
-// Load environment variables
 dotenv.config();
-
-// Connect to database
 connectDB();
 
-// Initialize Express app
 const app = express();
-
-
-
-
 app.use(express.json());
 
-  
-const allowedOrigins = [
-    process.env.FRONTEND_URL,
-  ];
-  
-  app.use(cors({
-    origin: allowedOrigins,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // Allow cookies if needed
-  }));
-  
-  // ✅ Explicitly handle preflight requests
-  app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*"); // Allow all origins
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true"); // Allow cookies if needed
-    next();
-  });
-  
-  // ✅ Explicitly handle preflight requests (OPTIONS)
-  app.options("*", (req, res) => {
-    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Max-Age", "600");
-    return res.sendStatus(204);
-  });
-  
-  
+// ✅ Define allowed origins
+const ALLOWED_ORIGINS = [
+  `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
+  "http://localhost:5173", // Local frontend
+];
 
-const port = process.env.PORT || 3000;
+// ✅ CORS Middleware
+app.use((req, res, next) => {
+  const requestOrigin = req.headers.origin;
+  const accessOrigin = ALLOWED_ORIGINS.includes(requestOrigin) ? requestOrigin : ALLOWED_ORIGINS[1];
 
+  res.setHeader("Access-Control-Allow-Origin", accessOrigin);
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Vary", "Origin");
 
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204); // Preflight request handling
+  }
 
-app.get("/",(req,res)=>{
-    res.send("Welcome to the Second Brain API")
+  next();
+});
+
+// ✅ Routes
+app.get("/", (req, res) => {
+  res.send("Welcome to the Second Brain API");
 });
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/contents", contentRouter);
 app.use("/api/v1/links", linkRouter);
 
-app.listen(port,()=>{
-    console.log(`Server is listening on ${port}`)
-})
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is listening on ${port}`);
+});
 
 export default app;
