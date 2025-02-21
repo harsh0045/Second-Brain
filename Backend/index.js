@@ -14,10 +14,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
 // Routes
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/contents", contentRouter);
 app.use("/api/v1/links", linkRouter);
+
 
 const port=process.env.PORT || 3000;
 app.listen(port, () => console.log("Server ready on port 3000."));
