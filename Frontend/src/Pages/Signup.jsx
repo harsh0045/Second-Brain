@@ -23,7 +23,7 @@ export const Signup = () => {
       const password=passwordRef.current?.value;
       console.log({ firstname, lastname, email, password });
       try{
-        await axios.post(`${process.env.BACKEND_URL}/api/v1/users/register`,{
+        await axios.post(`${import.meta.env.BACKEND_URL}/api/v1/users/register`,{
           firstname: firstname,
           lastname: lastname,
           email: email,
