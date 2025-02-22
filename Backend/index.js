@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 // ✅ Define allowed origins dynamically
-const allowedOrigins = [process.env.FRONTEND_URL];
+const allowedOrigins = [process.env.FRONTEND_URL , 'http://localhost:3000'];
 
 // ✅ Custom CORS Middleware
 const allowCors = (fn) => async (req, res) => {
@@ -64,9 +64,9 @@ app.options('*', (req, res) => {
 });
 
 // ✅ Use Routes with CORS Middleware
-app.use('/api/users', allowCors(userRouter));
-app.use('/api/content', allowCors(contentRouter));
-app.use('/api/links', allowCors(linkRouter));
+app.use('/api/v1/users', allowCors(userRouter));
+app.use('/api/v1/contents', allowCors(contentRouter));
+app.use('/api/v1/links', allowCors(linkRouter));
 
 const port = process.env.PORT || 3000;
 
