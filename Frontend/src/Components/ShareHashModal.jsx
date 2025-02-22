@@ -17,7 +17,7 @@ const ShareHashModal = ({open,onClose}) => {
     async function existingLink(){
         try{
             setLoading(true);
-            const response= await axios.get(`${process.env.VITE_BACKEND_URL}/api/v1/links/exist`,{
+            const response= await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/links/exist`,{
                 headers:{
                     authorization:localStorage.getItem("token")
                 }
@@ -40,7 +40,7 @@ const ShareHashModal = ({open,onClose}) => {
     async function addLink(share){
         try{
           setLoading(true);
-            const response= await axios.post(`${process.env.BACKEND_URL}/api/v1/links/addlink`,{
+            const response= await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/links/addlink`,{
                 share:share
             },{
                 headers:{

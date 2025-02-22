@@ -27,14 +27,14 @@ export const Signin = () => {
         
         })
         
-        toast.success("User loged in Successfully")
+
         const jwt=response.data.token;
         
         localStorage.setItem("token",`bearer ${jwt}`);
      
       
         navigate("/dashboard");
-      
+        toast.success("User loged in Successfully")
       }catch(err){
         toast.error(err.response?.data?.message || "Something went wrong");    
       }finally {

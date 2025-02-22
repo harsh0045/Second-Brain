@@ -32,7 +32,7 @@ export function ContentModal({open,onClose}){
 
         if(!selected){toast.error("Select type");return;}
         try{
-            const response= await axios.post(`${process.env.VITE_BACKEND_URL}/api/v1/contents/addcontent`,{
+            const response= await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/contents/addcontent`,{
                 title:title,
                 link:link,
                 type:selected
