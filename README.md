@@ -1,6 +1,6 @@
 # Second Brain
 
-Second Brain is a **MERN-stack-based** web application designed to help users efficiently store, manage, and retrieve their important content, links, and notes. It provides a seamless experience with authentication, data organization, and accessibility.
+Second Brain is a **MERN-stack-based** web application designed to help users efficiently store, manage, and retrieve their important twitter post, LinkedIn Post ,Youtube Video and Google Docs. It provides a seamless experience with authentication, data organization, and accessibility.
 
 
 ## 🚀 Features
