@@ -7,7 +7,7 @@ import { blackListToken } from "../Models/blacklistTokeModel.js";
 
 export const registerUser=async(req,res)=>{
     const {firstname,lastname,email,password}=req.body;
-    console.log(firstname,lastname)
+  
     const userSchema = z.object({
         firstname: z.string().min(2, "Name is required"), // String with a minimum length of 1
         lastname:z.string().min(2,"Name is required"),
@@ -24,7 +24,8 @@ export const registerUser=async(req,res)=>{
       
     const inputValidation= userSchema.safeParse(req.body);
     if(!inputValidation.success){
-        return res.status(403).json({message:'Error in input',error:inputValidation.error.errors});
+        console.log(inputValidation.error.errors[0].message)
+        return res.status(403).json({message:inputValidation.error.errors[0].message,error:inputValidation.error.errors});
     }
 
     try{
@@ -66,7 +67,7 @@ export const loginUser=async(req,res)=>{
 
     const inputValidation= userSchema.safeParse(req.body);
     if(!inputValidation.success){
-        return res.status(403).json({message:"Error in input",error:inputValidation.error.errors});
+        return res.status(403).json({message:inputValidation.error.errors[0].message,error:inputValidation.error.errors});
     }
   
   

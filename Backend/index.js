@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 // ✅ Define allowed origins dynamically
-const allowedOrigins = [process.env.FRONTEND_URL , 'http://localhost:3000'];
+const allowedOrigins = [process.env.FRONTEND_URL , 'http://localhost:5173'];
 
 // ✅ Custom CORS Middleware
 const allowCors = (fn) => async (req, res) => {
